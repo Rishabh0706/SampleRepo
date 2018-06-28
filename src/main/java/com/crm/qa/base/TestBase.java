@@ -3,6 +3,7 @@
 
 package com.crm.qa.base;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import com.crm.qa.util.TestUtil;
@@ -28,8 +30,8 @@ public class TestBase {
 		
 		try {
 			prop = new Properties();
-			FileInputStream ip = new FileInputStream("/D:/Docs/Workspace/FreeCRMTest/src/main/java/com"
-					+"/crm/qa/config/config.properties");
+			File Path = new File(System.getProperty("user.dir"));
+			FileInputStream ip = new FileInputStream(new File (Path +"/src/main/java/com/crm/qa/config/config.properties" ));
 			prop.load(ip);
 			
 		}catch (FileNotFoundException e) {
@@ -43,11 +45,14 @@ public class TestBase {
 		
 		String browserName = prop.getProperty("browser");
 		if(browserName.equals("chrome")){
-			System.setProperty("webdriver.chrome.driver", "D:/Docs/Workspace/chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver", "D:/Docs/Workspace/chromedriver.exe");
 			driver = new ChromeDriver();
 		}else if(browserName.equals("ff")){
-			System.setProperty("webdriver.gecko.driver", "D:/Docs/Workspace/geckodriver.exe");
+			//System.setProperty("webdriver.gecko.driver", "D:/Docs/Workspace/geckodriver.exe");
 			driver = new FirefoxDriver();
+		}else {
+			//System.setProperty("webdriver.ie.driver", "D:/Docs/Workspace/IEDriverServer.exe");
+			driver = new InternetExplorerDriver();
 		}
 		
 		e_driver = new EventFiringWebDriver(driver);
